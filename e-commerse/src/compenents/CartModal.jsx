@@ -1,9 +1,20 @@
 import { useState } from 'react';
+import { useAppContext } from '../context.provider';
 
 const CartModal = ({ isOpen, onClose, product }) => {
     const [quantity, setQuantity] = useState(1);
+    const { addToCart } = useAppContext();
 
     if (!isOpen || !product) return null;
+
+    const handleAddToCart = () => {
+        // Ürünü belirtilen miktarda sepete ekle
+        for (let i = 0; i < quantity; i++) {
+            addToCart(product);
+        }
+        onClose();
+        setQuantity(1); // Modal kapandığında quantity'yi sıfırla
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -54,17 +65,14 @@ const CartModal = ({ isOpen, onClose, product }) => {
                     <div className="border-t pt-4 mb-6">
                         <div className="flex justify-between items-center">
                             <span className="font-medium">Toplam:</span>
-                            <span className="text-lg font-bold text-blue-600">₺{product.price * quantity}</span>
+                            <span className="text-lg font-bold text-blue-600">₺{(product.price * quantity).toFixed(2)}</span>
                         </div>
                     </div>
 
                     {/* Actions */}
                     <div className="flex space-x-3">
                         <button
-                            onClick={() => {
-                                // Sepete ekleme işlemi burada yapılabilir
-                                onClose();
-                            }}
+                            onClick={handleAddToCart}
                             className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium"
                         >
                             <i className="bi bi-cart-plus mr-2"></i>

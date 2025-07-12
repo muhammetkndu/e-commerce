@@ -4,98 +4,28 @@ import Filter from '../compenents/filter';
 import MobileFilter from '../compenents/MobileFilter';
 import ProductsHeader from '../compenents/ProductsHeader';
 import CartModal from '../compenents/CartModal';
+import { useAppContext } from '../context.provider';
 
 const Home = () => {
-    // Mock ürünler - gerçek uygulamada API'den gelecek
-    const products = [
-        {
-            id: 1,
-            title: "iPhone 14 Pro Max 256GB",
-            price: 45999,
-            discount: 20,
-            rating: 4,
-            reviewCount: 128,
-            image: "https://via.placeholder.com/300x300/f3f4f6/6b7280?text=iPhone",
-            isFavorite: false
-        },
-        {
-            id: 2,
-            title: "MacBook Air M2 13.6 inch",
-            price: 35999,
-            discount: 16,
-            rating: 5,
-            reviewCount: 89,
-            image: "https://via.placeholder.com/300x300/f3f4f6/6b7280?text=MacBook",
-            isFavorite: true
-        },
-        {
-            id: 3,
-            title: "Samsung Galaxy S23 Ultra",
-            price: 38999,
-            discount: 15,
-            rating: 4,
-            reviewCount: 156,
-            image: "https://via.placeholder.com/300x300/f3f4f6/6b7280?text=Galaxy",
-            isFavorite: false
-        },
-        {
-            id: 4,
-            title: "AirPods Pro 2. Nesil",
-            price: 5999,
-            discount: 20,
-            rating: 5,
-            reviewCount: 234,
-            image: "https://via.placeholder.com/300x300/f3f4f6/6b7280?text=AirPods",
-            isFavorite: true
-        },
-        {
-            id: 5,
-            title: "iPad Air 5. Nesil",
-            price: 18999,
-            discount: 17,
-            rating: 4,
-            reviewCount: 67,
-            image: "https://via.placeholder.com/300x300/f3f4f6/6b7280?text=iPad",
-            isFavorite: false
-        },
-        {
-            id: 6,
-            title: "Apple Watch Series 8",
-            price: 12999,
-            discount: 19,
-            rating: 5,
-            reviewCount: 189,
-            image: "https://via.placeholder.com/300x300/f3f4f6/6b7280?text=Watch",
-            isFavorite: false
-        },
-        {
-            id: 7,
-            title: "Sony WH-1000XM5",
-            price: 8999,
-            discount: 18,
-            rating: 5,
-            reviewCount: 312,
-            image: "https://via.placeholder.com/300x300/f3f4f6/6b7280?text=Sony",
-            isFavorite: true
-        },
-        {
-            id: 8,
-            title: "Nintendo Switch OLED",
-            price: 7999,
-            discount: 11,
-            rating: 4,
-            reviewCount: 445,
-            image: "https://via.placeholder.com/300x300/f3f4f6/6b7280?text=Nintendo",
-            isFavorite: false
-        }
-    ];
-
+    const { products, loading, error, addToCart, toggleFavorite, favorites } = useAppContext();
     const [cartModalOpen, setCartModalOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+
+    if (loading) {
+        return <div>Yükleniyor...</div>
+    }
+
+    if (error) {
+        return <div>Hata: {error}</div>
+    }
 
     const handleAddToCart = (product) => {
         setSelectedProduct(product);
         setCartModalOpen(true);
+    };
+
+    const handleToggleFavorite = (product) => {
+        toggleFavorite(product);
     };
 
     return (
@@ -133,7 +63,9 @@ const Home = () => {
                                 <ProductCard
                                     key={product.id}
                                     product={product}
+                                    isFavorite={favorites.some(fav => fav.id === product.id)}
                                     onAddToCart={() => handleAddToCart(product)}
+                                    onToggleFavorite={handleToggleFavorite}
                                 />
                             ))}
                         </div>

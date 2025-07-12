@@ -1,45 +1,23 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppContext } from '../context.provider';
 
 const Cart = () => {
-    // Mock sepet verisi - gerçek uygulamada state management'dan gelecek
-    const [cartItems, setCartItems] = useState([
-        {
-            id: 1,
-            title: "iPhone 14 Pro Max 256GB",
-            price: 45999,
-            originalPrice: 57499,
-            quantity: 1,
-            image: "https://via.placeholder.com/100x100/f3f4f6/6b7280?text=iPhone"
-        },
-        {
-            id: 2,
-            title: "MacBook Air M2 13.6 inch",
-            price: 35999,
-            originalPrice: 42999,
-            quantity: 2,
-            image: "https://via.placeholder.com/100x100/f3f4f6/6b7280?text=MacBook"
-        }
-    ]);
-
+    const {cart, removeFromCart, updateCartQuantity} = useAppContext();
+    
     const updateQuantity = (id, newQuantity) => {
         if (newQuantity < 1) return;
-        setCartItems(items =>
-            items.map(item =>
-                item.id === id ? { ...item, quantity: newQuantity } : item
-            )
-        );
+        updateCartQuantity(id, newQuantity);
     };
 
     const removeItem = (id) => {
-        setCartItems(items => items.filter(item => item.id !== id));
+        removeFromCart(id);
     };
 
-    const totalPrice = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
-    const totalOriginalPrice = cartItems.reduce((total, item) => total + (item.originalPrice * item.quantity), 0);
+    const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const totalOriginalPrice = cart.reduce((total, item) => total + (item.originalPrice * item.quantity), 0);
     const totalDiscount = totalOriginalPrice - totalPrice;
 
-    if (cartItems.length === 0) {
+    if (cart.length === 0) {
         return (
             <div className="min-h-screen bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -65,7 +43,7 @@ const Cart = () => {
                 {/* Page Header */}
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Sepetim</h1>
-                    <p className="text-gray-600">Sepetinizde {cartItems.length} ürün bulunuyor</p>
+                    <p className="text-gray-600">Sepetinizde {cart.length} ürün bulunuyor</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -75,7 +53,7 @@ const Cart = () => {
                             <div className="p-6">
                                 <h2 className="text-lg font-semibold text-gray-900 mb-4">Sepet Ürünleri</h2>
                                 <div className="space-y-4">
-                                    {cartItems.map((item) => (
+                                    {cart.map((item) => (
                                         <div key={item.id} className="border border-gray-200 rounded-lg p-4">
                                             {/* Desktop Layout - Horizontal */}
                                             <div className="hidden md:flex items-center space-x-4">

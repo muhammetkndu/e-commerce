@@ -1,6 +1,52 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useAppContext } from '../context.provider';
 
 const Account = () => {
+    const [activeTab, setActiveTab] = useState('profile');
+    const location = useLocation();
+    const { addresses, removeAddress, favorites } = useAppContext();
+
+    // Route değiştiğinde tab'ı güncelle
+    useEffect(() => {
+        // URL'den tab'ı belirle
+        const path = location.pathname;
+        if (path === '/orders') setActiveTab('orders');
+        else if (path === '/addresses') setActiveTab('addresses');
+        else if (path === '/settings') setActiveTab('settings');
+        else setActiveTab('profile');
+    }, [location]);
+
+    // Tab değiştirme fonksiyonu
+    const handleTabChange = (tabName) => {
+        setActiveTab(tabName);
+        // Sayfa yönlendirmesi ekle
+        switch(tabName) {
+            case 'orders':
+                window.location.href = '/orders';
+                break;
+            case 'addresses':
+                window.location.href = '/addresses';
+                break;
+            case 'settings':
+                window.location.href = '/settings';
+                break;
+            case 'favorites':
+                window.location.href = '/favorites';
+                break;
+            default:
+                // Profile için sayfa değişmez, sadece tab değişir
+                break;
+        }
+    };
+
+    // Adres silme fonksiyonu
+    const handleDeleteAddress = (addressId) => {
+        if (window.confirm('Bu adresi silmek istediğinizden emin misiniz?')) {
+            removeAddress(addressId);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
@@ -53,22 +99,22 @@ const Account = () => {
                                     <i className="bi bi-person-circle mr-3"></i>
                                     Profil Bilgileri
                                 </a>
-                                <a href="#orders" className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <Link to={"/orders"} className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                     <i className="bi bi-box mr-3"></i>
                                     Siparişlerim
-                                </a>
-                                <a href="#favorites" className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                </Link>
+                                <Link to="/favorites" className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                     <i className="bi bi-heart mr-3"></i>
                                     Favorilerim
-                                </a>
-                                <a href="#addresses" className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                </Link>
+                                <Link to="/addresses" className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                     <i className="bi bi-geo-alt mr-3"></i>
                                     Adreslerim
-                                </a>
-                                <a href="#settings" className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                </Link>
+                                <Link to="/settings" className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                     <i className="bi bi-gear mr-3"></i>
                                     Hesap Ayarları
-                                </a>
+                                </Link>
                                 <a href="#security" className="flex items-center px-4 py-3 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                     <i className="bi bi-shield-lock mr-3"></i>
                                     Güvenlik
@@ -89,23 +135,66 @@ const Account = () => {
 
                         {/* Mobile Navigation Tabs */}
                         <div className="lg:hidden bg-white rounded-xl shadow-lg p-4">
-                            <div className="flex space-x-2 overflow-x-auto">
-                                <button className="flex-shrink-0 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium">
+                            <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
+                                <button 
+                                    onClick={() => handleTabChange('profile')}
+                                    className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
+                                        activeTab === 'profile' 
+                                            ? 'bg-blue-600 text-white' 
+                                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    }`}
+                                >
                                     <i className="bi bi-person-circle mr-2"></i>
                                     Profil
                                 </button>
-                                <button className="flex-shrink-0 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium">
-                                    <i className="bi bi-box mr-2"></i>
-                                    Siparişler
-                                </button>
-                                <button className="flex-shrink-0 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium">
-                                    <i className="bi bi-heart mr-2"></i>
-                                    Favoriler
-                                </button>
-                                <button className="flex-shrink-0 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium">
-                                    <i className="bi bi-geo-alt mr-2"></i>
-                                    Adresler
-                                </button>
+                                <Link to="/orders" className="flex-shrink-0">
+                                    <button 
+                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
+                                            activeTab === 'orders' 
+                                                ? 'bg-blue-600 text-white' 
+                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        }`}
+                                    >
+                                        <i className="bi bi-box mr-2"></i>
+                                        Siparişler
+                                    </button>
+                                </Link>
+                                <Link to="/favorites" className="flex-shrink-0">
+                                    <button 
+                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
+                                            activeTab === 'favorites' 
+                                                ? 'bg-blue-600 text-white' 
+                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        }`}
+                                    >
+                                        <i className="bi bi-heart mr-2"></i>
+                                        Favoriler
+                                    </button>
+                                </Link>
+                                <Link to="/addresses" className="flex-shrink-0">
+                                    <button 
+                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
+                                            activeTab === 'addresses' 
+                                                ? 'bg-blue-600 text-white' 
+                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        }`}
+                                    >
+                                        <i className="bi bi-geo-alt mr-2"></i>
+                                        Adresler
+                                    </button>
+                                </Link>
+                                <Link to="/settings" className="flex-shrink-0">
+                                    <button 
+                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
+                                            activeTab === 'settings' 
+                                                ? 'bg-blue-600 text-white' 
+                                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                        }`}
+                                    >
+                                        <i className="bi bi-gear mr-2"></i>
+                                        Ayarlar
+                                    </button>
+                                </Link>
                             </div>
                         </div>
 
@@ -215,47 +304,32 @@ const Account = () => {
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-                                    <div className="border border-gray-200 rounded-lg p-3 lg:p-4">
-                                        <div className="flex items-start justify-between mb-3">
-                                            <h3 className="font-semibold text-gray-900 text-sm lg:text-base">Ev Adresi</h3>
-                                            <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Varsayılan</span>
+                                    {addresses.map((address) => (
+                                        <div key={address.id} className="border border-gray-200 rounded-lg p-3 lg:p-4">
+                                            <div className="flex items-start justify-between mb-3">
+                                                <h3 className="font-semibold text-gray-900 text-sm lg:text-base">{address.title}</h3>
+                                                {address.isDefault && (
+                                                    <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">Varsayılan</span>
+                                                )}
+                                            </div>
+                                            <p className="text-gray-600 text-xs lg:text-sm mb-3 whitespace-pre-line">
+                                                {address.address}
+                                            </p>
+                                            <div className="flex space-x-2">
+                                                <button className="text-blue-600 hover:text-blue-700 text-xs lg:text-sm">
+                                                    <i className="bi bi-pencil mr-1"></i>
+                                                    Düzenle
+                                                </button>
+                                                <button 
+                                                    onClick={() => handleDeleteAddress(address.id)}
+                                                    className="text-red-600 hover:text-red-700 text-xs lg:text-sm"
+                                                >
+                                                    <i className="bi bi-trash mr-1"></i>
+                                                    Sil
+                                                </button>
+                                            </div>
                                         </div>
-                                        <p className="text-gray-600 text-xs lg:text-sm mb-3">
-                                            Atatürk Mahallesi, Cumhuriyet Caddesi<br />
-                                            No: 123, Daire: 5<br />
-                                            Kadıköy / İstanbul
-                                        </p>
-                                        <div className="flex space-x-2">
-                                            <button className="text-blue-600 hover:text-blue-700 text-xs lg:text-sm">
-                                                <i className="bi bi-pencil mr-1"></i>
-                                                Düzenle
-                                            </button>
-                                            <button className="text-red-600 hover:text-red-700 text-xs lg:text-sm">
-                                                <i className="bi bi-trash mr-1"></i>
-                                                Sil
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="border border-gray-200 rounded-lg p-3 lg:p-4">
-                                        <div className="flex items-start justify-between mb-3">
-                                            <h3 className="font-semibold text-gray-900 text-sm lg:text-base">İş Adresi</h3>
-                                        </div>
-                                        <p className="text-gray-600 text-xs lg:text-sm mb-3">
-                                            Levent Mahallesi, Büyükdere Caddesi<br />
-                                            No: 456, Kat: 10<br />
-                                            Beşiktaş / İstanbul
-                                        </p>
-                                        <div className="flex space-x-2">
-                                            <button className="text-blue-600 hover:text-blue-700 text-xs lg:text-sm">
-                                                <i className="bi bi-pencil mr-1"></i>
-                                                Düzenle
-                                            </button>
-                                            <button className="text-red-600 hover:text-red-700 text-xs lg:text-sm">
-                                                <i className="bi bi-trash mr-1"></i>
-                                                Sil
-                                            </button>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
@@ -276,19 +350,19 @@ const Account = () => {
                                         <div className="bg-green-100 rounded-full w-12 h-12 lg:w-16 lg:h-16 flex items-center justify-center mx-auto mb-2 lg:mb-3">
                                             <i className="bi bi-heart text-lg lg:text-2xl text-green-600"></i>
                                         </div>
-                                        <div className="text-lg lg:text-2xl font-bold text-gray-900">8</div>
+                                        <div className="text-lg lg:text-2xl font-bold text-gray-900">{favorites.length}</div>
                                         <div className="text-gray-600 text-xs lg:text-sm">Favori Ürün</div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="bg-purple-100 rounded-full w-12 h-12 lg:w-16 lg:h-16 flex items-center justify-center mx-auto mb-2 lg:mb-3">
-                                            <i className="bi bi-star text-lg lg:text-2xl text-purple-600"></i>
+                                        <div className="bg-yellow-100 rounded-full w-12 h-12 lg:w-16 lg:h-16 flex items-center justify-center mx-auto mb-2 lg:mb-3">
+                                            <i className="bi bi-star text-lg lg:text-2xl text-yellow-600"></i>
                                         </div>
                                         <div className="text-lg lg:text-2xl font-bold text-gray-900">4.8</div>
                                         <div className="text-gray-600 text-xs lg:text-sm">Ortalama Puan</div>
                                     </div>
                                     <div className="text-center">
-                                        <div className="bg-orange-100 rounded-full w-12 h-12 lg:w-16 lg:h-16 flex items-center justify-center mx-auto mb-2 lg:mb-3">
-                                            <i className="bi bi-calendar-check text-lg lg:text-2xl text-orange-600"></i>
+                                        <div className="bg-purple-100 rounded-full w-12 h-12 lg:w-16 lg:h-16 flex items-center justify-center mx-auto mb-2 lg:mb-3">
+                                            <i className="bi bi-calendar-check text-lg lg:text-2xl text-purple-600"></i>
                                         </div>
                                         <div className="text-lg lg:text-2xl font-bold text-gray-900">2</div>
                                         <div className="text-gray-600 text-xs lg:text-sm">Bu Ay Sipariş</div>
@@ -297,29 +371,25 @@ const Account = () => {
                             </div>
                         </div>
 
-                        {/* Mobile Bottom Navigation */}
-                        <div className="lg:hidden bg-white rounded-xl shadow-lg p-4">
-                            <div className="flex items-center justify-center space-x-6">
-                                <button className="flex flex-col items-center text-blue-600">
-                                    <i className="bi bi-house text-xl mb-1"></i>
-                                    <span className="text-xs">Ana Sayfa</span>
-                                </button>
-                                <button className="flex flex-col items-center text-gray-600">
-                                    <i className="bi bi-search text-xl mb-1"></i>
-                                    <span className="text-xs">Ara</span>
-                                </button>
-                                <button className="flex flex-col items-center text-gray-600">
-                                    <i className="bi bi-heart text-xl mb-1"></i>
-                                    <span className="text-xs">Favoriler</span>
-                                </button>
-                                <button className="flex flex-col items-center text-gray-600">
-                                    <i className="bi bi-cart text-xl mb-1"></i>
-                                    <span className="text-xs">Sepet</span>
-                                </button>
-                                <button className="flex flex-col items-center text-gray-600">
-                                    <i className="bi bi-person text-xl mb-1"></i>
-                                    <span className="text-xs">Profil</span>
-                                </button>
+                        {/* Bottom Navigation - Mobile Only */}
+                        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-50">
+                            <div className="flex justify-around">
+                                <Link to="/" className="flex flex-col items-center py-2 text-gray-600 hover:text-blue-600">
+                                    <i className="bi bi-house text-lg"></i>
+                                    <span className="text-xs mt-1">Ana Sayfa</span>
+                                </Link>
+                                <Link to="/favorites" className="flex flex-col items-center py-2 text-gray-600 hover:text-blue-600">
+                                    <i className="bi bi-heart text-lg"></i>
+                                    <span className="text-xs mt-1">Favoriler</span>
+                                </Link>
+                                <Link to="/cart" className="flex flex-col items-center py-2 text-gray-600 hover:text-blue-600">
+                                    <i className="bi bi-cart text-lg"></i>
+                                    <span className="text-xs mt-1">Sepet</span>
+                                </Link>
+                                <Link to="/account" className="flex flex-col items-center py-2 text-blue-600">
+                                    <i className="bi bi-person text-lg"></i>
+                                    <span className="text-xs mt-1">Hesabım</span>
+                                </Link>
                             </div>
                         </div>
                     </div>

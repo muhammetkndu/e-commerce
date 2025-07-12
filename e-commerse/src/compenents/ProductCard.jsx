@@ -1,4 +1,4 @@
-const ProductCard = ({ product, onAddToCart, onFavorite = () => {} }) => {
+const ProductCard = ({ product, onAddToCart, onToggleFavorite = () => {}, isFavorite = false }) => {
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
             <div className="relative">
@@ -8,10 +8,10 @@ const ProductCard = ({ product, onAddToCart, onFavorite = () => {} }) => {
                     className="w-full h-48 object-cover"
                 />
                 <button 
-                    className={`absolute top-2 right-2 text-gray-400 hover:text-red-500 ${product?.isFavorite ? 'text-red-500' : ''}`}
-                    onClick={() => onFavorite(product)}
+                    className={`absolute top-2 right-2 text-gray-400 hover:text-red-500 ${isFavorite ? 'text-red-500' : ''}`}
+                    onClick={() => onToggleFavorite(product)}
                 >
-                    <i className={`bi bi-heart${product?.isFavorite ? '-fill' : ''} text-xl`}></i>
+                    <i className={`bi bi-heart${isFavorite ? '-fill' : ''} text-xl`}></i>
                 </button>
 
                 {/* Discount Badge */}
