@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context.provider';
+import PageHero from '../compenents/PageHero';
 
 const Addresses = () => {
     const { addresses, removeAddress, setDefaultAddress } = useAppContext();
@@ -19,16 +20,10 @@ const Addresses = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">Adreslerim</h1>
-                        <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                            Teslimat adreslerinizi yönetin ve yeni adresler ekleyin
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <PageHero
+                title="Adreslerim"
+                subtitle="Teslimat adreslerinizi yönetin ve yeni adresler ekleyin"
+            />
 
             {/* Addresses Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
@@ -82,7 +77,7 @@ const Addresses = () => {
                                         <button className="text-blue-600 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors">
                                             <i className="bi bi-pencil text-lg"></i>
                                         </button>
-                                        <button 
+                                        <button
                                             onClick={() => handleDeleteAddress(address.id)}
                                             className="text-red-600 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors"
                                         >
@@ -124,7 +119,7 @@ const Addresses = () => {
                                                 Varsayılan
                                             </button>
                                         ) : (
-                                            <button 
+                                            <button
                                                 onClick={() => handleSetDefault(address.id)}
                                                 className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
                                             >

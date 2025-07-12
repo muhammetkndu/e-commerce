@@ -1,17 +1,13 @@
+import PageHero from '../compenents/PageHero';
+
 const Orders = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">Siparişlerim</h1>
-                        <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                            Tüm siparişlerinizi görüntüleyin ve kargo durumunu takip edin
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <PageHero
+                title="Siparişlerim"
+                subtitle="Tüm siparişlerinizi takip edin ve kargo durumlarını öğrenin"
+            />
 
             {/* Orders Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">

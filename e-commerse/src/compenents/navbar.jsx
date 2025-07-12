@@ -10,10 +10,12 @@ const Navbar = () => {
 
     const toggleMenuMobile = () => {
         setIsMobileOpenMenu(!isMobileOpenMenu);
-    }
+    };
+
+    // Close mobile menu when route changes
     useEffect(() => {
         setIsMobileOpenMenu(false);
-    }, [location]);
+    }, [location.pathname]);
 
     return (
         <nav className="bg-white shadow-lg sticky top-0 z-50">

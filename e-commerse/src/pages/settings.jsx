@@ -1,19 +1,13 @@
-import { Link } from 'react-router-dom';
+import PageHero from '../compenents/PageHero';
 
 const Settings = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">Hesap Ayarları</h1>
-                        <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                            Hesap bilgilerinizi ve tercihlerinizi yönetin
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <PageHero
+                title="Hesap Ayarları"
+                subtitle="Hesap bilgilerinizi güncelleyin ve güvenlik ayarlarınızı yönetin"
+            />
 
             {/* Settings Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
@@ -390,10 +384,10 @@ const Settings = () => {
 
                         {/* Back to Account Button */}
                         <div className="text-center">
-                            <Link to="/account" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
+                            <a href="/account" className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium">
                                 <i className="bi bi-arrow-left mr-2"></i>
                                 Hesabıma Dön
-                            </Link>
+                            </a>
                         </div>
                     </div>
                 </div>

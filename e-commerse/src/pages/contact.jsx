@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PageHero from '../compenents/PageHero';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -8,6 +9,12 @@ const Contact = () => {
         message: ''
     });
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Form gönderme işlemi burada yapılacak
+        console.log('Form data:', formData);
+    };
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -15,27 +22,13 @@ const Contact = () => {
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Form gönderme işlemi burada yapılacak
-        console.log('Form data:', formData);
-        alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
-        setFormData({ name: '', email: '', subject: '', message: '' });
-    };
-
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">İletişim</h1>
-                        <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                            Sorularınız mı var? Size yardımcı olmaktan mutluluk duyarız.
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <PageHero
+                title="İletişim"
+                subtitle="Bizimle iletişime geçin, size yardımcı olmaktan mutluluk duyarız"
+            />
 
             {/* Contact Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

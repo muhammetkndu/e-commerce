@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppContext } from '../context.provider';
+import PageHero from '../compenents/PageHero';
 
 const Account = () => {
     const [activeTab, setActiveTab] = useState('profile');
@@ -21,7 +22,7 @@ const Account = () => {
     const handleTabChange = (tabName) => {
         setActiveTab(tabName);
         // Sayfa yönlendirmesi ekle
-        switch(tabName) {
+        switch (tabName) {
             case 'orders':
                 window.location.href = '/orders';
                 break;
@@ -50,16 +51,10 @@ const Account = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">Hesabım</h1>
-                        <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                            Hesap bilgilerinizi yönetin ve siparişlerinizi takip edin
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <PageHero
+                title="Hesabım"
+                subtitle="Hesap bilgilerinizi yönetin ve siparişlerinizi takip edin"
+            />
 
             {/* Account Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
@@ -136,60 +131,55 @@ const Account = () => {
                         {/* Mobile Navigation Tabs */}
                         <div className="lg:hidden bg-white rounded-xl shadow-lg p-4">
                             <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
-                                <button 
+                                <button
                                     onClick={() => handleTabChange('profile')}
-                                    className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
-                                        activeTab === 'profile' 
-                                            ? 'bg-blue-600 text-white' 
+                                    className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${activeTab === 'profile'
+                                            ? 'bg-blue-600 text-white'
                                             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                    }`}
+                                        }`}
                                 >
                                     <i className="bi bi-person-circle mr-2"></i>
                                     Profil
                                 </button>
                                 <Link to="/orders" className="flex-shrink-0">
-                                    <button 
-                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
-                                            activeTab === 'orders' 
-                                                ? 'bg-blue-600 text-white' 
+                                    <button
+                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${activeTab === 'orders'
+                                                ? 'bg-blue-600 text-white'
                                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                        }`}
+                                            }`}
                                     >
                                         <i className="bi bi-box mr-2"></i>
                                         Siparişler
                                     </button>
                                 </Link>
                                 <Link to="/favorites" className="flex-shrink-0">
-                                    <button 
-                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
-                                            activeTab === 'favorites' 
-                                                ? 'bg-blue-600 text-white' 
+                                    <button
+                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${activeTab === 'favorites'
+                                                ? 'bg-blue-600 text-white'
                                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                        }`}
+                                            }`}
                                     >
                                         <i className="bi bi-heart mr-2"></i>
                                         Favoriler
                                     </button>
                                 </Link>
                                 <Link to="/addresses" className="flex-shrink-0">
-                                    <button 
-                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
-                                            activeTab === 'addresses' 
-                                                ? 'bg-blue-600 text-white' 
+                                    <button
+                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${activeTab === 'addresses'
+                                                ? 'bg-blue-600 text-white'
                                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                        }`}
+                                            }`}
                                     >
                                         <i className="bi bi-geo-alt mr-2"></i>
                                         Adresler
                                     </button>
                                 </Link>
                                 <Link to="/settings" className="flex-shrink-0">
-                                    <button 
-                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${
-                                            activeTab === 'settings' 
-                                                ? 'bg-blue-600 text-white' 
+                                    <button
+                                        className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px] touch-button ${activeTab === 'settings'
+                                                ? 'bg-blue-600 text-white'
                                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                        }`}
+                                            }`}
                                     >
                                         <i className="bi bi-gear mr-2"></i>
                                         Ayarlar
@@ -320,7 +310,7 @@ const Account = () => {
                                                     <i className="bi bi-pencil mr-1"></i>
                                                     Düzenle
                                                 </button>
-                                                <button 
+                                                <button
                                                     onClick={() => handleDeleteAddress(address.id)}
                                                     className="text-red-600 hover:text-red-700 text-xs lg:text-sm"
                                                 >

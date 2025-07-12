@@ -1,19 +1,13 @@
-import { Link } from 'react-router-dom';
+import PageHero from '../compenents/PageHero';
 
 const Returns = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                    <div className="text-center">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">İade & Değişim</h1>
-                        <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto">
-                            Kolay ve hızlı iade süreci ile memnuniyetiniz garantili
-                        </p>
-                    </div>
-                </div>
-            </div>
+            <PageHero
+                title="İade ve Değişim"
+                subtitle="İade ve değişim politikalarımız hakkında bilgi alın"
+            />
 
             {/* Returns Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-16">
@@ -269,10 +263,10 @@ const Returns = () => {
                             İade sürecinizle ilgili sorularınız için müşteri hizmetlerimizle iletişime geçebilirsiniz.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link to="/contact" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            <a href="/contact" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
                                 <i className="bi bi-chat-dots mr-2"></i>
                                 Canlı Destek
-                            </Link>
+                            </a>
                             <a href="tel:+902125550123" className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-medium">
                                 <i className="bi bi-telephone mr-2"></i>
                                 +90 (212) 555 0123
